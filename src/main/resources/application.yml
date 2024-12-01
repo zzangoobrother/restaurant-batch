@@ -1,1 +1,8 @@
-spring.application.name=restaurant-batch
+spring:
+  batch:
+    jdbc:
+      initialize-schema: never
+
+file:
+  path: src/main/resources/data/fulldata_07_24_04_P_일반음식점.csv
+  encoding: x-windows-949
