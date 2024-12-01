@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+import static com.example.restaurantbatch.job.reader.RestaurantCsvReader.businessStatusMap;
+
 @RequiredArgsConstructor
 @Configuration
 public class RestaurantWriter implements ItemWriter<RestaurantCsvDto> {
@@ -19,7 +21,7 @@ public class RestaurantWriter implements ItemWriter<RestaurantCsvDto> {
     @Override
     public void write(Chunk<? extends RestaurantCsvDto> chunk) throws Exception {
         List<Restaurant> restaurants = chunk.getItems().stream()
-                .map(it -> it.toRestaurant(1L))
+                .map(it -> it.toRestaurant(businessStatusMap.get(it.getBusinessStatusCode()).getId()))
                 .toList();
 
         repository.saveAll(restaurants);

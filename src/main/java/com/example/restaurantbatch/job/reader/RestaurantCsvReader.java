@@ -2,6 +2,10 @@ package com.example.restaurantbatch.job.reader;
 
 import com.example.restaurantbatch.config.FileProperties;
 import com.example.restaurantbatch.job.dto.RestaurantCsvDto;
+import com.example.restaurantbatch.model.BusinessStatus;
+import com.example.restaurantbatch.model.BusinessType;
+import com.example.restaurantbatch.repository.BusinessStatusRepository;
+import com.example.restaurantbatch.repository.BusinessTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -13,14 +17,30 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.validation.BindException;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Configuration
 public class RestaurantCsvReader {
 
+    public static Map<String, BusinessStatus> businessStatusMap = new HashMap<>();
+    public static Map<String, BusinessType> businessTypeHashMap = new HashMap<>();
+
+    private final BusinessStatusRepository businessStatusRepository;
+    private final BusinessTypeRepository businessTypeRepository;
     private final FileProperties fileProperties;
 
     @Bean
     public FlatFileItemReader<RestaurantCsvDto> flatFileItemReader() {
+        businessStatusMap = businessStatusRepository.getAll().stream()
+                .collect(Collectors.toMap(BusinessStatus::getBusinessStatusCode, Function.identity()));
+
+        businessTypeHashMap = businessTypeRepository.getAll().stream()
+                .collect(Collectors.toMap(BusinessType::getOpenServiceId, Function.identity()));
+
         return new FlatFileItemReaderBuilder<RestaurantCsvDto>()
                 .name("restaurantCsvReader")
                 .encoding(fileProperties.encoding())

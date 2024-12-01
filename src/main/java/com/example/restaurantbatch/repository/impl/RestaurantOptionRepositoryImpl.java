@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
-public class RestaurantOptionRepositoryImpl implements RestaurantOptionRepository {
+class RestaurantOptionRepositoryImpl implements RestaurantOptionRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
