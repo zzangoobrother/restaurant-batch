@@ -2,6 +2,10 @@ package com.example.restaurantbatch.job.reader;
 
 import com.example.restaurantbatch.config.FileProperties;
 import com.example.restaurantbatch.job.dto.RestaurantCsvDto;
+import com.example.restaurantbatch.repository.BusinessStatusRepository;
+import com.example.restaurantbatch.repository.BusinessTypeRepository;
+import com.example.restaurantbatch.repository.InMemoryBusinessStatusRepository;
+import com.example.restaurantbatch.repository.InMemoryBusinessTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.StepExecution;
@@ -20,6 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = RestaurantCsvReader.class)
 class RestaurantCsvReaderTest {
 
+    private BusinessStatusRepository businessStatusRepository;
+    private BusinessTypeRepository businessTypeRepository;
     private FileProperties fileProperties;
     private RestaurantCsvReader reader;
 
@@ -27,8 +33,10 @@ class RestaurantCsvReaderTest {
 
     @BeforeEach
     void setUp() {
+        businessStatusRepository = new InMemoryBusinessStatusRepository();
+        businessTypeRepository = new InMemoryBusinessTypeRepository();
         fileProperties = new FileProperties("src/test/resources/data/test.csv", "UTF-8");
-        this.reader = new RestaurantCsvReader(fileProperties);
+        this.reader = new RestaurantCsvReader(businessStatusRepository, businessTypeRepository, fileProperties);
     }
 
     @Test

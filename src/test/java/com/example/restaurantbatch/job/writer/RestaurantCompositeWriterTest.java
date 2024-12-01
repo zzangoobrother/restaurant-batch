@@ -1,12 +1,10 @@
 package com.example.restaurantbatch.job.writer;
 
+import com.example.restaurantbatch.config.FileProperties;
 import com.example.restaurantbatch.job.dto.RestaurantCsvDto;
-import com.example.restaurantbatch.model.Restaurant;
-import com.example.restaurantbatch.model.RestaurantAddress;
-import com.example.restaurantbatch.model.RestaurantOption;
-import com.example.restaurantbatch.repository.InMemoryRestaurantAddressRepository;
-import com.example.restaurantbatch.repository.InMemoryRestaurantOptionRepository;
-import com.example.restaurantbatch.repository.InMemoryRestaurantRepository;
+import com.example.restaurantbatch.job.reader.RestaurantCsvReader;
+import com.example.restaurantbatch.model.*;
+import com.example.restaurantbatch.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.item.Chunk;
@@ -18,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class RestaurantCompositeWriterTest {
 
+    private InMemoryBusinessStatusRepository businessStatusRepository;
+    private InMemoryBusinessTypeRepository businessTypeRepository;
     private InMemoryRestaurantRepository restaurantRepository;
     private InMemoryRestaurantAddressRepository restaurantAddressRepository;
     private InMemoryRestaurantOptionRepository restaurantOptionRepository;
@@ -30,6 +30,16 @@ class RestaurantCompositeWriterTest {
 
     @BeforeEach
     void setUp() {
+        businessStatusRepository = new InMemoryBusinessStatusRepository();
+        businessStatusRepository.insert(BusinessStatus.builder().id(1L).businessStatusCode("code").build());
+
+        businessTypeRepository = new InMemoryBusinessTypeRepository();
+        businessTypeRepository.insert(BusinessType.builder().build());
+
+        FileProperties fileProperties = new FileProperties("src/test/resources/data/test.csv", "UTF-8");
+        RestaurantCsvReader reader = new RestaurantCsvReader(businessStatusRepository, businessTypeRepository, fileProperties);
+        reader.flatFileItemReader();
+
         restaurantRepository = new InMemoryRestaurantRepository();
         restaurantWriter = new RestaurantWriter(restaurantRepository);
 
@@ -50,6 +60,7 @@ class RestaurantCompositeWriterTest {
                 .businessName("test restaurant")
                 .locationFullAddress("대전광역시 서구 관저동 1020")
                 .waterSupplyTypeName("상수도전용")
+                .businessStatusCode("code")
                 .build()));
 
         List<Restaurant> restaurants = restaurantRepository.findMany();
