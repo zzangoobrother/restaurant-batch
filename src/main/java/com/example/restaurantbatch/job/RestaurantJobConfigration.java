@@ -3,6 +3,8 @@ package com.example.restaurantbatch.job;
 import com.example.restaurantbatch.job.dto.RestaurantCsvDto;
 import com.example.restaurantbatch.job.reader.RestaurantCsvReader;
 import com.example.restaurantbatch.job.writer.RestaurantCompositeWriter;
+import com.example.restaurantbatch.listener.LoggingItemReadListener;
+import com.example.restaurantbatch.listener.LoggingItemWriteListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -32,11 +34,13 @@ public class RestaurantJobConfigration {
     }
 
     @Bean
-    public Step step(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
+    public Step step(LoggingItemReadListener loggingItemReadListener, LoggingItemWriteListener loggingItemWriteListener, JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("restaurantStep", jobRepository)
                 .<RestaurantCsvDto, RestaurantCsvDto>chunk(1000, platformTransactionManager)
                 .reader(restaurantCsvReader.flatFileItemReader())
+                .listener(loggingItemReadListener)
                 .writer(restaurantCompositeWriter.writer())
+                .listener(loggingItemWriteListener)
                 .taskExecutor(taskExecutor())
                 .build();
     }
