@@ -1,6 +1,7 @@
 package dev.fastcampus.restaurantbatch.job.dto;
 
 import dev.fastcampus.restaurantbatch.model.Restaurant;
+import dev.fastcampus.restaurantbatch.model.RestaurantAddress;
 import lombok.*;
 
 @Builder
@@ -9,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 public class RestaurantCsvDto {
-    int no;
+    Long no;
     String openServiceName;
     String openServiceId;
     String openLocalGovernmentCode;
@@ -59,6 +60,7 @@ public class RestaurantCsvDto {
 
     public Restaurant toRestaurant(Long businessStatusId) {
         return Restaurant.builder()
+                .id(getNo())
                 .businessStatusId(businessStatusId)
                 .openLocalGovernmentCode(getOpenLocalGovernmentCode())
                 .managementNumber(getManagementNumber())
@@ -74,6 +76,19 @@ public class RestaurantCsvDto {
                 .dataUpdateDate(getDataUpdateDate())
                 .businessCategoryName(getBusinessCategoryName())
                 .sanitationTypeName(getSanitationTypeName())
+                .build();
+    }
+
+    public RestaurantAddress toRestaurantAddress() {
+        return RestaurantAddress.builder()
+                .locationPhone(getLocationPhone())
+                .locationArea(getLocationArea())
+                .locationPostalCode(getLocationPostalCode())
+                .locationFullAddress(getLocationFullAddress())
+                .roadNameFullAddress(getRoadNameFullAddress())
+                .roadNamePostalCode(getRoadNamePostalCode())
+                .coordinateX(getCoordinateX())
+                .coordinateY(getCoordinateY())
                 .build();
     }
 }

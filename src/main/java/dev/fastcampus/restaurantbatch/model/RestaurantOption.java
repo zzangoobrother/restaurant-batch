@@ -6,7 +6,7 @@ import lombok.Getter;
 public class RestaurantOption {
     private Long id;
 
-    private Long foodStoreId;
+    private Long restaurantId;
 
     private String maleEmployeeCount;
 

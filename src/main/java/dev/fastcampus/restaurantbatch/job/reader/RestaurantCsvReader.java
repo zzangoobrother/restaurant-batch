@@ -44,7 +44,7 @@ public class RestaurantCsvReader {
         @Override
         public RestaurantCsvDto mapFieldSet(FieldSet fieldSet) throws BindException {
             return RestaurantCsvDto.builder()
-                    .no(fieldSet.readInt(0))
+                    .no(fieldSet.readLong(0))
                     .openServiceName(fieldSet.readString(1))
                     .openServiceId(fieldSet.readString(2))
                     .openLocalGovernmentCode(fieldSet.readString(3))
