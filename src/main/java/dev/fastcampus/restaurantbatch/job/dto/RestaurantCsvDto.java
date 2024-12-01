@@ -2,6 +2,7 @@ package dev.fastcampus.restaurantbatch.job.dto;
 
 import dev.fastcampus.restaurantbatch.model.Restaurant;
 import dev.fastcampus.restaurantbatch.model.RestaurantAddress;
+import dev.fastcampus.restaurantbatch.model.RestaurantOption;
 import lombok.*;
 
 @Builder
@@ -81,6 +82,7 @@ public class RestaurantCsvDto {
 
     public RestaurantAddress toRestaurantAddress() {
         return RestaurantAddress.builder()
+                .restaurantId(getNo())
                 .locationPhone(getLocationPhone())
                 .locationArea(getLocationArea())
                 .locationPostalCode(getLocationPostalCode())
@@ -89,6 +91,30 @@ public class RestaurantCsvDto {
                 .roadNamePostalCode(getRoadNamePostalCode())
                 .coordinateX(getCoordinateX())
                 .coordinateY(getCoordinateY())
+                .build();
+    }
+
+    public RestaurantOption toRestaurantOption() {
+        return RestaurantOption.builder()
+                .restaurantId(getNo())
+                .maleEmployeeCount(getMaleEmployeeCount())
+                .femaleEmployeeCount(getFemaleEmployeeCount())
+                .businessAreaTypeName(getBusinessAreaTypeName())
+                .gradeTypeName(getGradeTypeName())
+                .waterSupplyTypeName(getWaterSupplyTypeName())
+                .totalEmployeeCount(getTotalEmployeeCount())
+                .headquartersEmployeeCount(getHeadquartersEmployeeCount())
+                .factoryOfficeEmployeeCount(getFactoryOfficeEmployeeCount())
+                .factorySalesEmployeeCount(getFactorySalesEmployeeCount())
+                .factoryProductionEmployeeCount(getFactoryProductionEmployeeCount())
+                .buildingOwnershipTypeName(getBuildingOwnershipTypeName())
+                .guaranteeAmount(getGuaranteeAmount())
+                .monthlyRent(getMonthlyRent())
+                .isMultiUseFacility(getIsMultiUseFacility())
+                .totalFacilityScale(getTotalFacilityScale())
+                .traditionalBusinessDesignationNumber(getTraditionalBusinessDesignationNumber())
+                .traditionalBusinessMainFood(getTraditionalBusinessMainFood())
+                .website(getWebsite())
                 .build();
     }
 }

@@ -1,7 +1,9 @@
 package dev.fastcampus.restaurantbatch.model;
 
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 @Getter
 public class RestaurantOption {
     private Long id;

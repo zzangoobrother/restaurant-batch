@@ -17,6 +17,7 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     @Transactional
     public void saveAll(List<Restaurant> foodStores) {
         String sql = "INSERT INTO restaurant ("
