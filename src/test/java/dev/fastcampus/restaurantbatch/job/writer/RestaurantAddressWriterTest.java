@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RestaurantAddressWriterTest {
 
     private InMemoryRestaurantAddressRepository restaurantAddressRepository;
-    public RestaurantAddressWriter restaurantAddressWriter;
+    private RestaurantAddressWriter restaurantAddressWriter;
 
     @BeforeEach
     void setUp() {
