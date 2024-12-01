@@ -128,7 +128,6 @@ values ('일반음식점', '07_24_04_P')
 
 CREATE TABLE IF NOT EXISTS restaurant (
     id                                          BIGINT AUTO_INCREMENT            NOT NULL    comment '가게 id',
-    business_manage_code_id                     BIGINT                           NOT NULL    comment '업종 관리 코드 id',
     business_status_id                          BIGINT                           NOT NULL    comment '영업 상태 id',
     open_local_government_code                  VARCHAR(255)                     NULL        comment '개방자치단체코드',
     management_number                           VARCHAR(255)                     NULL        comment '관리번호',
