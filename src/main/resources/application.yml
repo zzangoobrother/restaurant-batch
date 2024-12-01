@@ -1,7 +1,13 @@
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: user
+    password: 1234
+    url: jdbc:mysql://localhost:3306/restaurant?useUnicode=true&serverTimezone=Asia/Seoul&autoReconnect=true&rewriteBatchedStatements=true
+
   batch:
     jdbc:
-      initialize-schema: never
+      initialize-schema: always
 
 file:
   path: src/main/resources/data/fulldata_07_24_04_P_일반음식점.csv
