@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:8.0.37
     environment:
       MYSQL_DATABASE: 'restaurant'
       MYSQL_USER: 'user'
